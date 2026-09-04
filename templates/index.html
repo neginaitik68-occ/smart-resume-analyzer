@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +12,32 @@
 
     <h1>Smart Resume Analyzer</h1>
 
-    <p>Upload your resume and analyze it against a job description.</p>
+    <p>Upload your resume PDF</p>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        <input
+            type="file"
+            name="resume"
+            accept=".pdf"
+            required
+        >
+
+        <button type="submit">
+            Analyze Resume
+        </button>
+
+    </form>
+
+
+    {% if extracted_text %}
+
+    <h2>Extracted Resume Text</h2>
+
+    <pre>{{ extracted_text }}</pre>
+
+    {% endif %}
 
 </body>
+
 </html>
