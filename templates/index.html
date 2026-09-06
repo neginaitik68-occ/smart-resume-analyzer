@@ -16,7 +16,7 @@
     <h1>Smart Resume Analyzer</h1>
 
     <p>
-        Upload your resume PDF and extract its text for analysis.
+        Upload your resume PDF and extract important information.
     </p>
 
 
@@ -38,7 +38,36 @@
     </form>
 
 
-    <!-- Display Original Extracted Text -->
+    <!-- Resume Information -->
+
+    {% if resume_info %}
+
+        <h2>Resume Information</h2>
+
+        <p>
+            <strong>Name:</strong>
+            {{ resume_info.name }}
+        </p>
+
+        <p>
+            <strong>Email:</strong>
+            {{ resume_info.email }}
+        </p>
+
+        <p>
+            <strong>Phone:</strong>
+            {{ resume_info.phone }}
+        </p>
+
+        <p>
+            <strong>Skills:</strong>
+            {{ resume_info.skills | join(", ") }}
+        </p>
+
+    {% endif %}
+
+
+    <!-- Original Extracted Text -->
 
     {% if extracted_text %}
 
@@ -49,7 +78,7 @@
     {% endif %}
 
 
-    <!-- Display Cleaned Text -->
+    <!-- Cleaned Text -->
 
     {% if cleaned_text %}
 
@@ -58,7 +87,6 @@
         <pre>{{ cleaned_text }}</pre>
 
     {% endif %}
-
 
 </body>
 
