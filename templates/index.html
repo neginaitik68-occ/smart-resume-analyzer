@@ -16,11 +16,14 @@
     <h1>Smart Resume Analyzer</h1>
 
     <p>
-        Upload your resume PDF and extract important information.
+        Upload your resume and enter a job description
+        to analyze your job match.
     </p>
 
 
-    <!-- Resume Upload Form -->
+    <!-- Resume Upload -->
+
+    <h2>Upload Resume</h2>
 
     <form method="POST" enctype="multipart/form-data">
 
@@ -30,6 +33,23 @@
             accept=".pdf"
             required
         >
+
+        <br><br>
+
+
+        <!-- Job Description -->
+
+        <h2>Job Description</h2>
+
+        <textarea
+            name="job_description"
+            rows="12"
+            cols="70"
+            placeholder="Paste the job description here..."
+            required
+        ></textarea>
+
+        <br><br>
 
         <button type="submit">
             Analyze Resume
@@ -67,7 +87,75 @@
     {% endif %}
 
 
-    <!-- Original Extracted Text -->
+    <!-- Job Skills -->
+
+    {% if job_skills %}
+
+        <h2>Required Job Skills</h2>
+
+        <p>
+            {{ job_skills | join(", ") }}
+        </p>
+
+    {% endif %}
+
+
+    <!-- Match Analysis -->
+
+    {% if match_score is not none %}
+
+        <h2>Resume Match Analysis</h2>
+
+        <h3>
+            Match Score: {{ match_score }}%
+        </h3>
+
+
+        <h3>Matched Skills</h3>
+
+        {% if matched_skills %}
+
+            <ul>
+
+                {% for skill in matched_skills %}
+
+                    <li>{{ skill }}</li>
+
+                {% endfor %}
+
+            </ul>
+
+        {% else %}
+
+            <p>No matching skills found.</p>
+
+        {% endif %}
+
+
+        <h3>Missing Skills</h3>
+
+        {% if missing_skills %}
+
+            <ul>
+
+                {% for skill in missing_skills %}
+
+                    <li>{{ skill }}</li>
+
+                {% endfor %}
+
+            </ul>
+
+        {% else %}
+
+            <p>No missing skills! 🎉</p>
+
+        {% endif %}
+
+    {% endif %}
+
+
+    <!-- Extracted Resume Text -->
 
     {% if extracted_text %}
 
@@ -78,7 +166,7 @@
     {% endif %}
 
 
-    <!-- Cleaned Text -->
+    <!-- Cleaned Resume Text -->
 
     {% if cleaned_text %}
 
@@ -87,6 +175,7 @@
         <pre>{{ cleaned_text }}</pre>
 
     {% endif %}
+
 
 </body>
 
