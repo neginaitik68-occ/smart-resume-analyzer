@@ -20,7 +20,9 @@ def get_matched_skills(resume_skills, job_skills):
     resume_skills = set(resume_skills)
     job_skills = set(job_skills)
 
-    return sorted(resume_skills.intersection(job_skills))
+    return sorted(
+        resume_skills.intersection(job_skills)
+    )
 
 
 def get_missing_skills(resume_skills, job_skills):
@@ -28,4 +30,21 @@ def get_missing_skills(resume_skills, job_skills):
     resume_skills = set(resume_skills)
     job_skills = set(job_skills)
 
-    return sorted(job_skills - resume_skills)
+    return sorted(
+        job_skills - resume_skills
+    )
+
+
+def get_match_category(score):
+
+    if score >= 80:
+        return "Excellent Match"
+
+    elif score >= 60:
+        return "Good Match"
+
+    elif score >= 40:
+        return "Moderate Match"
+
+    else:
+        return "Low Match"

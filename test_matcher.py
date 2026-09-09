@@ -1,7 +1,8 @@
 from utils.matcher import (
     calculate_skill_match,
     get_matched_skills,
-    get_missing_skills
+    get_missing_skills,
+    get_match_category
 )
 
 
@@ -37,7 +38,12 @@ missing = get_missing_skills(
     job_skills
 )
 
+category = get_match_category(score)
+
 
 print("Match Score:", score, "%")
+print("Category:", category)
 print("Matched Skills:", matched)
 print("Missing Skills:", missing)
+print("Matched Count:", len(matched))
+print("Missing Count:", len(missing))

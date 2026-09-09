@@ -21,7 +21,9 @@
     </p>
 
 
-    <!-- Resume Upload -->
+    <!-- ========================= -->
+    <!-- RESUME UPLOAD -->
+    <!-- ========================= -->
 
     <h2>Upload Resume</h2>
 
@@ -37,7 +39,9 @@
         <br><br>
 
 
-        <!-- Job Description -->
+        <!-- ========================= -->
+        <!-- JOB DESCRIPTION -->
+        <!-- ========================= -->
 
         <h2>Job Description</h2>
 
@@ -58,7 +62,9 @@
     </form>
 
 
-    <!-- Resume Information -->
+    <!-- ========================= -->
+    <!-- RESUME INFORMATION -->
+    <!-- ========================= -->
 
     {% if resume_info %}
 
@@ -87,7 +93,9 @@
     {% endif %}
 
 
-    <!-- Job Skills -->
+    <!-- ========================= -->
+    <!-- JOB SKILLS -->
+    <!-- ========================= -->
 
     {% if job_skills %}
 
@@ -100,7 +108,9 @@
     {% endif %}
 
 
-    <!-- Match Analysis -->
+    <!-- ========================= -->
+    <!-- MATCH ANALYSIS -->
+    <!-- ========================= -->
 
     {% if match_score is not none %}
 
@@ -110,6 +120,12 @@
             Match Score: {{ match_score }}%
         </h3>
 
+        <h3>
+            Category: {{ match_category }}
+        </h3>
+
+
+        <!-- Matched Skills -->
 
         <h3>Matched Skills</h3>
 
@@ -127,10 +143,14 @@
 
         {% else %}
 
-            <p>No matching skills found.</p>
+            <p>
+                No matching skills found.
+            </p>
 
         {% endif %}
 
+
+        <!-- Missing Skills -->
 
         <h3>Missing Skills</h3>
 
@@ -148,14 +168,31 @@
 
         {% else %}
 
-            <p>No missing skills! 🎉</p>
+            <p>
+                No missing skills! 🎉
+            </p>
 
         {% endif %}
+
+
+        <!-- Skill Counts -->
+
+        <h3>
+            Matched Skills Count:
+            {{ matched_skills | length }}
+        </h3>
+
+        <h3>
+            Missing Skills Count:
+            {{ missing_skills | length }}
+        </h3>
 
     {% endif %}
 
 
-    <!-- Extracted Resume Text -->
+    <!-- ========================= -->
+    <!-- EXTRACTED TEXT -->
+    <!-- ========================= -->
 
     {% if extracted_text %}
 
@@ -166,7 +203,9 @@
     {% endif %}
 
 
-    <!-- Cleaned Resume Text -->
+    <!-- ========================= -->
+    <!-- CLEANED TEXT -->
+    <!-- ========================= -->
 
     {% if cleaned_text %}
 

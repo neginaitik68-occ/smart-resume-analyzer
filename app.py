@@ -8,7 +8,8 @@ from utils.job_extractor import extract_job_skills
 from utils.matcher import (
     calculate_skill_match,
     get_matched_skills,
-    get_missing_skills
+    get_missing_skills,
+    get_match_category
 )
 
 
@@ -30,12 +31,13 @@ def home():
     job_skills = []
 
     match_score = None
+    match_category = ""
     matched_skills = []
     missing_skills = []
 
     if request.method == "POST":
 
-        # Get resume file
+        # Get uploaded resume
         file = request.files.get("resume")
 
         # Get job description
@@ -44,7 +46,10 @@ def home():
             ""
         )
 
-        # Process resume
+        # -----------------------------
+        # PROCESS RESUME
+        # -----------------------------
+
         if file and file.filename.endswith(".pdf"):
 
             file_path = os.path.join(
@@ -57,7 +62,7 @@ def home():
             # Read PDF
             reader = PdfReader(file_path)
 
-            # Extract text
+            # Extract text from every page
             for page in reader.pages:
 
                 text = page.extract_text()
@@ -73,19 +78,29 @@ def home():
                 extracted_text
             )
 
-        # Process job description
+        # -----------------------------
+        # PROCESS JOB DESCRIPTION
+        # -----------------------------
+
         if job_description:
 
             job_skills = extract_job_skills(
                 job_description
             )
 
-        # Compare resume and job skills
+        # -----------------------------
+        # MATCH RESUME WITH JOB
+        # -----------------------------
+
         if resume_info and job_skills:
 
             match_score = calculate_skill_match(
                 resume_info["skills"],
                 job_skills
+            )
+
+            match_category = get_match_category(
+                match_score
             )
 
             matched_skills = get_matched_skills(
@@ -106,6 +121,7 @@ def home():
         job_description=job_description,
         job_skills=job_skills,
         match_score=match_score,
+        match_category=match_category,
         matched_skills=matched_skills,
         missing_skills=missing_skills
     )
