@@ -94,7 +94,7 @@
 
 
     <!-- ========================= -->
-    <!-- JOB SKILLS -->
+    <!-- REQUIRED JOB SKILLS -->
     <!-- ========================= -->
 
     {% if job_skills %}
@@ -117,7 +117,7 @@
         <h2>Resume Match Analysis</h2>
 
         <h3>
-            Match Score: {{ match_score }}%
+            Skill Match Score: {{ match_score }}%
         </h3>
 
         <h3>
@@ -186,6 +186,28 @@
             Missing Skills Count:
             {{ missing_skills | length }}
         </h3>
+
+    {% endif %}
+
+
+    <!-- ========================= -->
+    <!-- TEXT SIMILARITY -->
+    <!-- ========================= -->
+
+    {% if similarity_score is not none %}
+
+        <h2>TF-IDF Text Similarity</h2>
+
+        <h3>
+            Resume ↔ Job Description Similarity:
+            {{ similarity_score }}%
+        </h3>
+
+        <p>
+            This score measures how similar the overall
+            resume text is to the job description using
+            TF-IDF and Cosine Similarity.
+        </p>
 
     {% endif %}
 

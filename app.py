@@ -5,12 +5,15 @@ import os
 from utils.text_processing import clean_text
 from utils.resume_extractor import extract_resume_info
 from utils.job_extractor import extract_job_skills
+
 from utils.matcher import (
     calculate_skill_match,
     get_matched_skills,
     get_missing_skills,
     get_match_category
 )
+
+from utils.similarity import calculate_text_similarity
 
 
 app = Flask(__name__)
@@ -32,15 +35,24 @@ def home():
 
     match_score = None
     match_category = ""
+
     matched_skills = []
     missing_skills = []
 
+    similarity_score = None
+
     if request.method == "POST":
 
-        # Get uploaded resume
+        # -----------------------------
+        # GET RESUME
+        # -----------------------------
+
         file = request.files.get("resume")
 
-        # Get job description
+        # -----------------------------
+        # GET JOB DESCRIPTION
+        # -----------------------------
+
         job_description = request.form.get(
             "job_description",
             ""
@@ -59,10 +71,8 @@ def home():
 
             file.save(file_path)
 
-            # Read PDF
             reader = PdfReader(file_path)
 
-            # Extract text from every page
             for page in reader.pages:
 
                 text = page.extract_text()
@@ -71,7 +81,9 @@ def home():
                     extracted_text += text
 
             # Clean resume text
-            cleaned_text = clean_text(extracted_text)
+            cleaned_text = clean_text(
+                extracted_text
+            )
 
             # Extract resume information
             resume_info = extract_resume_info(
@@ -89,7 +101,7 @@ def home():
             )
 
         # -----------------------------
-        # MATCH RESUME WITH JOB
+        # SKILL MATCHING
         # -----------------------------
 
         if resume_info and job_skills:
@@ -113,17 +125,35 @@ def home():
                 job_skills
             )
 
+        # -----------------------------
+        # TEXT SIMILARITY
+        # -----------------------------
+
+        if cleaned_text and job_description:
+
+            similarity_score = calculate_text_similarity(
+                cleaned_text,
+                job_description
+            )
+
     return render_template(
         "index.html",
+
         extracted_text=extracted_text,
         cleaned_text=cleaned_text,
+
         resume_info=resume_info,
+
         job_description=job_description,
         job_skills=job_skills,
+
         match_score=match_score,
         match_category=match_category,
+
         matched_skills=matched_skills,
-        missing_skills=missing_skills
+        missing_skills=missing_skills,
+
+        similarity_score=similarity_score
     )
 
 
