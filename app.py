@@ -14,6 +14,7 @@ from utils.matcher import (
 )
 
 from utils.similarity import calculate_text_similarity
+from utils.recomendaations import generate_recommendations
 
 
 app = Flask(__name__)
@@ -40,6 +41,8 @@ def home():
     missing_skills = []
 
     similarity_score = None
+
+    recommendations = []
 
     if request.method == "POST":
 
@@ -80,12 +83,10 @@ def home():
                 if text:
                     extracted_text += text
 
-            # Clean resume text
             cleaned_text = clean_text(
                 extracted_text
             )
 
-            # Extract resume information
             resume_info = extract_resume_info(
                 extracted_text
             )
@@ -136,6 +137,16 @@ def home():
                 job_description
             )
 
+        # -----------------------------
+        # RECOMMENDATIONS
+        # -----------------------------
+
+        if missing_skills:
+
+            recommendations = generate_recommendations(
+                missing_skills
+            )
+
     return render_template(
         "index.html",
 
@@ -153,7 +164,9 @@ def home():
         matched_skills=matched_skills,
         missing_skills=missing_skills,
 
-        similarity_score=similarity_score
+        similarity_score=similarity_score,
+
+        recommendations=recommendations
     )
 
 
