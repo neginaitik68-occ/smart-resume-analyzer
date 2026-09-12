@@ -1,5 +1,6 @@
 import re
 
+
 SKILLS = [
     "python",
     "java",
@@ -10,6 +11,7 @@ SKILLS = [
     "matplotlib",
     "machine learning",
     "deep learning",
+    "data science",
     "tensorflow",
     "pytorch",
     "flask",
@@ -20,6 +22,47 @@ SKILLS = [
     "github",
     "docker"
 ]
+
+
+SKILL_CATEGORIES = {
+    "Programming": [
+        "python",
+        "java",
+        "c++"
+    ],
+
+    "Data Science": [
+        "pandas",
+        "numpy",
+        "matplotlib",
+        "machine learning",
+        "deep learning",
+        "data science",
+        "tensorflow",
+        "pytorch"
+    ],
+
+    "Web Development": [
+        "flask",
+        "django"
+    ],
+
+    "Database": [
+        "sql"
+    ],
+
+    "Tools": [
+        "git",
+        "github",
+        "docker"
+    ],
+
+    "Business & Analytics": [
+        "power bi",
+        "excel"
+    ]
+}
+
 
 def extract_email(text):
 
@@ -32,6 +75,7 @@ def extract_email(text):
 
     return None
 
+
 def extract_phone(text):
 
     pattern = r"\b(?:\+91[-\s]?)?[6-9]\d{9}\b"
@@ -42,6 +86,7 @@ def extract_phone(text):
         return match.group()
 
     return None
+
 
 def extract_name(text):
 
@@ -59,6 +104,7 @@ def extract_name(text):
 
     return None
 
+
 def extract_skills(text):
 
     text = text.lower()
@@ -67,18 +113,48 @@ def extract_skills(text):
 
     for skill in SKILLS:
 
-        if skill in text:
+        escaped_skill = re.escape(skill)
+
+        pattern = r"(?<!\w)" + escaped_skill + r"(?!\w)"
+
+        if re.search(pattern, text):
+
             found_skills.append(skill)
 
     return found_skills
 
+
+def categorize_skills(skills):
+
+    categorized_skills = {}
+
+    for category, category_skills in SKILL_CATEGORIES.items():
+
+        matched = []
+
+        for skill in skills:
+
+            if skill in category_skills:
+
+                matched.append(skill)
+
+        if matched:
+
+            categorized_skills[category] = matched
+
+    return categorized_skills
+
+
 def extract_resume_info(text):
+
+    skills = extract_skills(text)
 
     resume_info = {
         "name": extract_name(text),
         "email": extract_email(text),
         "phone": extract_phone(text),
-        "skills": extract_skills(text)
+        "skills": skills,
+        "skill_categories": categorize_skills(skills)
     }
 
     return resume_info

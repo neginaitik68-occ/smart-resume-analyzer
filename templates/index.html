@@ -92,6 +92,32 @@
 
     {% endif %}
 
+    <!-- ========================= -->
+<!-- SKILL CATEGORIES -->
+<!-- ========================= -->
+
+{% if resume_info.skill_categories %}
+
+    <h2>Skill Categories</h2>
+
+    {% for category, skills in resume_info.skill_categories.items() %}
+
+        <h3>{{ category }}</h3>
+
+        <ul>
+
+            {% for skill in skills %}
+
+                <li>{{ skill }}</li>
+
+            {% endfor %}
+
+        </ul>
+
+    {% endfor %}
+
+{% endif %}
+
 
     <!-- ========================= -->
     <!-- REQUIRED JOB SKILLS -->

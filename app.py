@@ -83,10 +83,12 @@ def home():
                 if text:
                     extracted_text += text
 
+            # Clean resume text
             cleaned_text = clean_text(
                 extracted_text
             )
 
+            # Extract resume information
             resume_info = extract_resume_info(
                 extracted_text
             )
